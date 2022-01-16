@@ -42,6 +42,29 @@ class HomeController extends Controller
         Memo::insert(['content' => $posts['content'], 'user_id' => \Auth::id()]);
 
         return redirect( route('home') );
+    }
 
+    public function edit($id)
+    {
+        //ここでメモを取得
+        $memos = Memo::select('memos.*')
+            ->where('user_id', '=', \Auth::id())
+            ->whereNull('deleted_at')
+            ->orderBy('updated_at', 'DESC') // ASC=小さい順、DESC=大きい順
+            ->get();
+
+        $edit_memo = Memo::find($id);
+
+        return view('edit', compact('memos','edit_memo'));
+    }
+
+    public function update(Request $request)
+    {
+        $posts = $request->all();
+        // dump die略　→ メソッドの引数の値を取った値を展開して止める　→ データ確認
+
+        Memo::where('id',$posts['memo_id'])->update(['content' => $posts['content']]);
+
+        return redirect( route('home') );
     }
 }
