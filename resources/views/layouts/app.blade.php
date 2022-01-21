@@ -11,7 +11,7 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
-
+    @yield('javascript')
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
@@ -80,13 +80,15 @@
             <div class="row">
                 <div class="col-md-2 p-0">
                     <div class="card">
-                        <div class="card-header">左カラム</div>
+                        <div class="card-header">タグ一覧</div>
                         <div class="card-body">
-                            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                        <a href="/" class="card-text d-block">全て表示</a>
+                    @foreach($tags as $tag)
+                            <a href="/?tag={{ $tag['id'] }}" class="card-text d-block">{{ $tag['name'] }}</a>
+                    @endforeach
                         </div>
                     </div>
                 </div>
-
                 <div class="col-md-4 p-0">
                 <div class="card">
                         <div class="card-header">メモ一覧</div>

@@ -1,13 +1,17 @@
 @extends('layouts.app')
 
+@section('javascript')
+<script src="/js/confirm.js"></script>
+@endsection
+
 @section('content')
 <div class="card">
     <div class="card-header">
         メモ編集
-        <form class="card-body" action="{{ route('destory') }}" method="POST">
+        <form class="card-body" id="delete-form" action="{{ route('destory') }}" method="POST">
             @csrf
             <input type="hidden" name="memo_id" value="{{ $edit_memo[0]['id'] }}" />
-            <button type="submit">削除</button>
+            <button type="submit" onclick="deleteHandle(event);">削除</button>
         </form>
     </div>
     {{-- route('store') と書くと→ /store --}}
@@ -17,6 +21,9 @@
         <div class="form-group">
             <textarea class="form-control" name="content" rows="3" placeholder="ここにメモを入力">{{ $edit_memo[0]['content'] }}</textarea>
         </div>
+        @error('content')
+            <div class="alert alert-danger">メモ内容を入力して下さい</div>
+        @enderror
     @foreach($tags as $t)
         <div class="form-check form-check-inline mb-3">
             {{-- 3項演算子 → if文を1行で書く方法 {{ 条件 ? trueだったら : falseだったら }}--}}
